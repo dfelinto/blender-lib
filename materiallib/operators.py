@@ -363,11 +363,11 @@ class OPS_Save_Selected_Material_to_Category(Operator):
                 import subprocess
                 
                 script = material_utils.save_material_script(filepath, mat.name, blend_path)
-                subprocess.call(bpy.app.binary_path + ' -b --python "' + script + '"')
+                subprocess.call([bpy.app.binary_path, '-b', '--python', script])
                 
                 if self.create_thumbnail:
                     script = material_utils.create_thumbnail_script(blend_path, mat.name, thumbnail_path)
-                    subprocess.call(bpy.app.binary_path + ' "' + material_utils.get_thumbnail_path() + '" -b --python "' + script + '"')
+                    subprocess.call([bpy.app.binary_path, material_utils.get_thumbnail_path(), '-b', '--python', script])
         return {'FINISHED'}
         
     def invoke(self,context,event):
@@ -424,7 +424,7 @@ class OPS_Create_Thumbnails(Operator):
         for mat in wm.materials_in_category:
             if mat.selected:
                 script = material_utils.create_thumbnail_script(mat.filepath, mat.name, os.path.join(category_path,mat.name))
-                subprocess.call(bpy.app.binary_path + ' "' + material_utils.get_thumbnail_path() + '" -b --python "' + script + '"')
+                subprocess.call([bpy.app.binary_path, material_utils.get_thumbnail_path(), '-b', '--python', script])
         return{'FINISHED'}
         
 class OPS_Load_Materials_From_Category(Operator):   

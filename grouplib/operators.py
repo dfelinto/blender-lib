@@ -389,11 +389,11 @@ class OPS_Save_Selected_Group_to_Category(Operator):
                 import subprocess
                 
                 script = group_utils.save_group_script(filepath, grp.name, blend_path)
-                subprocess.call(bpy.app.binary_path + ' -b --python "' + script + '"')
+                subprocess.call([bpy.app.binary_path, '-b', '--python', script])
                 
                 if self.create_thumbnail:
                     script = group_utils.create_thumbnail_script(blend_path, grp.name, thumbnail_path)
-                    subprocess.call(bpy.app.binary_path + ' "' + group_utils.get_thumbnail_path() + '" -b --python "' + script + '"')
+                    subprocess.call([bpy.app.binary_path, group_utils.get_thumbnail_path(), '-b', '--python', script])
         return {'FINISHED'}
     
     def invoke(self,context,event):
@@ -477,7 +477,7 @@ class OPS_Create_Thumbnails(Operator):
         for obj in wm.groups_in_category:
             if obj.selected:
                 script = self.write_script(obj.filepath, os.path.join(fd.get_file_browser_path(context),obj.name), obj.name)
-                subprocess.call(bpy.app.binary_path + ' "' + group_utils.get_thumbnail_path() + '" -b --python "' + script + '"')
+                subprocess.call([bpy.app.binary_path, group_utils.get_thumbnail_path(), '-b', '--python', script])
         return{'FINISHED'}
         
 class OPS_Load_Groups_From_Category(Operator):   

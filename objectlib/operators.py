@@ -291,11 +291,11 @@ class OPS_Save_Selected_Object_to_Category(Operator):
         import subprocess
 
         script = object_utils.save_object_script(filepath, obj.name, blend_path)
-        subprocess.call(bpy.app.binary_path + ' -b --python "' + script + '"')
+        subprocess.call([bpy.app.binary_path, '-b', '--python', script])
 
         if self.create_thumbnail:
             script = object_utils.create_thumbnail_script(blend_path, obj.name, thumbnail_path)
-            subprocess.call(bpy.app.binary_path + ' "' + object_utils.get_thumbnail_path() + '" -b --python "' + script + '"')
+            subprocess.call([bpy.app.binary_path, object_utils.get_thumbnail_path(), '-b', '--python', script])
         return {'FINISHED'}
     
     def invoke(self,context,event):
@@ -343,7 +343,7 @@ class OPS_Create_Thumbnails(Operator):
                 script = object_utils.create_thumbnail_script(obj.filepath, 
                                                               obj.name, 
                                                               os.path.join(fd.get_file_browser_path(context),obj.name))
-                subprocess.call(bpy.app.binary_path + ' "' + object_utils.get_thumbnail_path() + '" -b --python "' + script + '"')
+                subprocess.call([bpy.app.binary_path, object_utils.get_thumbnail_path(), '-b', '--python', script])
         return{'FINISHED'}
         
 class OPS_Load_Objects_From_Category(Operator):

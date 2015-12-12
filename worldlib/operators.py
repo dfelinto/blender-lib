@@ -145,10 +145,10 @@ class OPS_save_active_world_to_active_category(Operator):
         thumbnail_path = os.path.join(path,world.name + ".png")
         
         script = world_utils.save_world_script(bpy.data.filepath, world.name, blend_path)
-        subprocess.call(bpy.app.binary_path + ' -b --python "' + script + '"')
+        subprocess.call([bpy.app.binary_path, '-b', '--python', script])
         
         script = world_utils.create_thumbnail_script(blend_path, world.name, thumbnail_path)
-        subprocess.call(bpy.app.binary_path + ' "' + world_utils.get_thumbnail_path() + '" -b --python "' + script + '"')
+        subprocess.call([bpy.app.binary_path, world_utils.get_thumbnail_path(), '-b', '--python', script])
 
         return {'FINISHED'}
 
@@ -175,7 +175,7 @@ class OPS_Create_Thumbnails(Operator):
         for wld in wm.worlds_in_category:
             if wld.selected:
                 script = world_utils.create_thumbnail_script(wld.filepath, wld.name, os.path.join(category_path,wld.name))
-                subprocess.call(bpy.app.binary_path + ' "' + world_utils.get_thumbnail_path() + '" -b --python "' + script + '"')
+                subprocess.call([bpy.app.binary_path, world_utils.get_thumbnail_path(), '-b', '--python', script])
         return{'FINISHED'}
 
 class OPS_Select_All_Worlds_In_List(Operator):   
